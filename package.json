@@ -1,0 +1,27 @@
+{
+  "name": "log-master",
+  "version": "0.0.1",
+  "main": "log-master",
+  "keywords": [
+    "log",
+    "nodejs",
+    "split",
+    "merger"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hezedu/log-master.git"
+  },
+  "author": {
+    "name": "hezedu"
+  },
+  "dependencies": {
+    "sas": "^0.1.18"
+  },
+  "licenses": "MIT",
+  "email": "hezedu@hotmail.com",
+  "description": "split  the log",
+  "bugs": {
+    "url": "https://github.com/hezedu/log-master/issues"
+  }
+}
