@@ -4,5 +4,6 @@ module.exports={
     "node_web": "D:/duwei/ycombo_web/log"
   },
   "to": "D:/duwei/git/log-master/log",
-  "Interval": 1000 * 60 * 60 * 24
+  "Interval": 1000 * 60 * 60 * 24,
+  "timeFormat": "yyyy年MM月dd日HH时mm分"
 }
