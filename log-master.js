@@ -1,11 +1,11 @@
 var child_process = require('child_process');
 var conf = require('./conf');
-var sas = require('sas');
+var sas = require('./sas-debug');
 
 var fs = require('fs');
-var sasfs = require('sas-fs');
+var sasfs = require('./sas-fs');
 
-
+var C_time = 0;
 
 var Dateformat = function(date, fmt) {
 
@@ -33,6 +33,9 @@ var from = conf.from, //源文件夹
 var oldtime = conf.to + '/log-master-time'; //目标文件夹
 var Interval = conf.Interval; //间隔
 var timeFormat = conf.timeFormat; //文件夹时间格式
+
+var Cresult = {};
+
 
 
 /*var isDir = function(cb, t) { //是否为目录
@@ -79,6 +82,7 @@ var mkDirTime = function(cb, t) { //跟据时间创建文件夹
   console.log('创建文件夹:' + time);
   fs.mkdir(conf.to + '/' + time, function(err) {
     if (err) {
+      console.log(err)
       return cb('$STOP', err);
     }
     cb(time);
@@ -95,6 +99,7 @@ var readDir = function(path) { //读取目录下log文件。第一步。
   return function(cb, t) {
     fs.readdir(path, function(err, flies) {
       if (err) {
+        
         return cb('$STOP', err);
       }
       //var sharr = [];
@@ -103,11 +108,11 @@ var readDir = function(path) { //读取目录下log文件。第一步。
         var flie = flies[i];
         if (flie && flie[0] !== '.' && flie.substr(flie.length - 4) === '.log') {
 
-          obj[path + '/' + flie] = t.index + '__' + flie;
+          Cresult[path + '/' + flie] = t.index + '__' + flie;
           //sharr.push(flie);
         }
       }
-      cb(obj);
+      cb();
     });
   }
 }
@@ -126,29 +131,23 @@ var readOrWrite = function(cb) { //2
 
 var mkDirTime = function(cb, t) { //2跟据时间创建文件夹
   var oldtime = this[0];
-  if (Date.now() > Interval + oldtime) {
+  //if (Date.now() > Interval + oldtime) {
+  if (1==1) {
     var time = Dateformat(null, timeFormat);
     console.log('创建文件夹:' + time);
     fs.mkdir(conf.to + '/' + time, function(err) {
       if (err) {
+        console.log("conf.to + '/' + time =" + conf.to + '/' + time);
+        console.log(err)
         return cb('$STOP', err);
       }
-      cb(conf.to + '/' + time);
+      C_time = time;
+      cb();
     });
   }
 }
 
 
-
-var readFile = function(cb, t) {
-  fs.readFile(t.index, 'utf-8', function(err, buffer) {
-    if (err) {
-      cb(err);
-    } else {
-      cb(buffer); //$THIS=  直接替换this.
-    }
-  });
-}
 
 /*function readFile(cb, t) { //读取源log 第二步
   fs.readfile(t.index, 'utf-8', function(err, buffer) {
@@ -160,29 +159,17 @@ var readFile = function(cb, t) {
   });
 }*/
 
-function writeFile(cb, t) { //写入目标文件。
-  fs.writefile(t.Sparent[1]+'/'+t.index, this[0], 'utf-8', function(err) {
-    if (err) {
-      console.error(err);
-      return cb('$END');
-    }
-    cb();
-  });
-}
+
 
 function Clear(cb, t) { //清空log;
-  child_process.exec(_sh + t.index, function(err) {
+  child_process.exec(_sh + t.pIndex, function(err) {
     if (err) {
       console.error(err);
     }
   });
 }
 
-var iterator = function(path) {
-  return function(cb, t) {
 
-  }
-}
 
 
 
@@ -195,39 +182,56 @@ var iterator = function(path) {
   }
 }*/
 
-var loop = function(cb) {
-
-  cb('$RELOAD', [readOrWrite, mkDirTime, readFile, writeFile, Clear]);
-
-}
 
 
 
-/*{
-  "one": readDir,
-  "two": [readOrWrite, mkDirTime]
-},
-"three":*/
+
 
 sas([from], {
   iterator: readDir,
   allEnd: function(err, result) {
     if (err) {
-      return console.error('初始化失败：' + err);
+      return console.log('初始化失败：' + err);
     }
-    var _read = {},
-      _write = {};
-    for (var i in result) {
-      _read[i] = readFile;
-      _write[result[i]] = '';
+   
+
+//return console.log(Cresult)
+
+    var _read = {};
+
+        var readFile = function(cb, t) {
+      fs.readFile(t.pIndex, 'utf-8', function(err, buffer) {
+        if (err) {
+          cb(err);
+        } else {
+          cb(buffer); //$THIS=  直接替换this.
+        }
+      });
     }
-    _write
+
+    function writeFile(cb, t) { //写入目标文件。
+      console.log("t.pIndex=" +t.pIndex);
+      console.log(to + "/" + C_time + '/' + Cresult[t.pIndex]);
+      fs.writeFile(to + "/" + C_time + '/' + Cresult[t.pIndex], this[0], 'utf-8', function(err) {
+        if (err) {
+          console.log(err);
+          return cb('$END');
+        }
+        cb();
+      });
+    }
+    for (var i in Cresult) {
+      _read[i] = [readFile, writeFile,Clear];
+    }
+
+ //console.log(result);
+    sas([readOrWrite, mkDirTime, _read]);
   }
 });
 
 
 
-sas([readOrWrite, from], {
+/*sas([readOrWrite, from], {
   iterator::ite,
     allEnd: function(err, result) {
       if (err) {
@@ -240,4 +244,4 @@ sas([readOrWrite, from], {
 
       console.log(result);
     }
-});
+});*/

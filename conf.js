@@ -1,9 +1,8 @@
 module.exports={
   "from": {
-    "node_wechat": "D:/duwei/ycombo_wechat/other/log/2.25",
-    "node_web": "D:/duwei/ycombo_web/log"
+    "node_wechat": "D:/duWeiwork/log"
   },
-  "to": "D:/duwei/git/log-master/log",
+  "to": "D:/git/log-master/log",
   "Interval": 1000 * 60 * 60 * 24,
-  "timeFormat": "yyyy年MM月dd日HH时mm分"
+  "timeFormat": "yyyy年MM月dd日HH时mm分ss秒"
 }
