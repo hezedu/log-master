@@ -5,7 +5,7 @@ var sas = require('./sas-debug');
 var fs = require('fs');
 var sasfs = require('./sas-fs');
 
-var C_time = 0;
+sas.debug=0;
 
 var Dateformat = function(date, fmt) {
 
@@ -30,64 +30,14 @@ var Dateformat = function(date, fmt) {
 var _sh = "cat /dev/null > "; //清理log shell
 var from = conf.from, //源文件夹
   to = conf.to; //目标文件夹
-var oldtime = conf.to + '/log-master-time'; //目标文件夹
+var oldtime = conf.to + '/log-master-time'; //目标文件夹+时间
 var Interval = conf.Interval; //间隔
-var timeFormat = conf.timeFormat; //文件夹时间格式
-
-var Cresult = {};
-
-
-
-/*var isDir = function(cb, t) { //是否为目录
-  fs.readdir(conf.to + t.pIndex, function(err) {
-    if (!err) {
-      return cb('$END');
-    }
-    cb();
-  });
-}
-
-var mkDirName = function(cb, t) { //跟据名字创建文件夹
-  console.log('创建文件夹:' + t.pIndex);
-  fs.mkdir(conf.to + t.pIndex, function(err) {
-    if (err) {
-      return cb('$STOP', err);
-    }
-    cb();
-  });
-}*/
-
-
-
-var end = function(cb, t) { //初始化结束。
-  console.log('初始化结束');
-  cb('$THIS=', this[0]['OK']);
-}
-
-
-
-var ite = function(path) { //初始化集合。
-  return function(cb, t) {
-    var re_ = {};
-    re_['OK'] = readDir(path);
-    re_['/' + t.index] = [isDir, mkDirTime];
-    cb('$RELOAD', [re_, end])
-  }
-}
-
-
-
-var mkDirTime = function(cb, t) { //跟据时间创建文件夹
-  var time = Dateformat(null, timeFormat);
-  console.log('创建文件夹:' + time);
-  fs.mkdir(conf.to + '/' + time, function(err) {
-    if (err) {
-      console.log(err)
-      return cb('$STOP', err);
-    }
-    cb(time);
-  });
-}
+var timeFormat = conf.timeFormat; //文件夹时间名字格式。
+var Cresult = {}; //读取源文件列表变量。
+var C_time = 0; //时间文件夹名字
+var C_start=conf.startTime.split(':');//开始时间
+var C_start_Hour=Number(C_start[0]);//开始时间小时
+var C_start_min=Number(C_start[1]);//开始时间分钟
 
 
 
@@ -107,9 +57,7 @@ var readDir = function(path) { //读取目录下log文件。第一步。
       for (var i = 0, len = flies.length; i < len; i++) {
         var flie = flies[i];
         if (flie && flie[0] !== '.' && flie.substr(flie.length - 4) === '.log') {
-
           Cresult[path + '/' + flie] = t.index + '__' + flie;
-          //sharr.push(flie);
         }
       }
       cb();
@@ -125,40 +73,62 @@ var readOrWrite = function(cb) { //2
     if (err) {
       return cb('$STOP', err);
     }
-    cb(result[oldtime]);
+    var result_time = Number(result[0].oldtime);
+    var _start = new Date();
+    
+    _start.setHours(C_start_Hour,C_start_min,0);
+    
+    _start = _start.getTime()+ Interval;
+    var _Interval = _start-result_time;
+
+    if(_Interval<Interval){ //中途.
+      fs.writeFile(oldtime,)
+
+    }else{
+
+    }
+
+    setTimeout(function(){
+        cb(result_time);
+      },_Interval);
+
+    var time = Dateformat(_start, timeFormat);
+
+    console.log('\n_start=='+time);
+
+    
+
+
+
+     console.log(_Interval);
+    console.log('\nNumber(C_start[0])')
+
+
+    cb(result_time);
   });
 }
 
 var mkDirTime = function(cb, t) { //2跟据时间创建文件夹
-  var oldtime = this[0];
-  //if (Date.now() > Interval + oldtime) {
-  if (1==1) {
+  var _oldtime = this[0];
+
+   console.log("_oldtime = "+_oldtime);
+  if (Date.now() > Interval + _oldtime) {
+  //if (1==1) {
     var time = Dateformat(null, timeFormat);
-    console.log('创建文件夹:' + time);
+    console.log('正在创建文件夹:' + time);
     fs.mkdir(conf.to + '/' + time, function(err) {
       if (err) {
-        console.log("conf.to + '/' + time =" + conf.to + '/' + time);
-        console.log(err)
+        console.log("创建目标文件夹失败：" + conf.to + '/' + time);
+        console.log(err);
         return cb('$STOP', err);
       }
       C_time = time;
       cb();
     });
+  }else{
+    cb('$END');
   }
 }
-
-
-
-/*function readFile(cb, t) { //读取源log 第二步
-  fs.readfile(t.index, 'utf-8', function(err, buffer) {
-    if (err) {
-      return cb("$STOP", err);
-    }
-    cb(buffer);
-
-  });
-}*/
-
 
 
 function Clear(cb, t) { //清空log;
@@ -171,31 +141,13 @@ function Clear(cb, t) { //清空log;
 
 
 
-
-
-/*var ite = function(path) { //初始化集合。
-  return function(cb, t) {
-    var re_ = {};
-    re_['OK'] = readDir(path);
-    re_['/' + t.index] = [isDir, mkDirTime];
-    cb('$RELOAD', [re_, end])
-  }
-}*/
-
-
-
-
-
-
 sas([from], {
   iterator: readDir,
   allEnd: function(err, result) {
     if (err) {
       return console.log('初始化失败：' + err);
     }
-   
-
-//return console.log(Cresult)
+  
 
     var _read = {};
 
@@ -221,27 +173,9 @@ sas([from], {
       });
     }
     for (var i in Cresult) {
-      _read[i] = [readFile, writeFile,Clear];
+      _read[i] = [readFile, writeFile];
     }
 
- //console.log(result);
     sas([readOrWrite, mkDirTime, _read]);
   }
 });
-
-
-
-/*sas([readOrWrite, from], {
-  iterator::ite,
-    allEnd: function(err, result) {
-      if (err) {
-        return console.log(err);
-      }
-      for (var i in result) {
-
-
-      }
-
-      console.log(result);
-    }
-});*/
