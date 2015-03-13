@@ -5,7 +5,7 @@ var sas = require('./sas-debug');
 var fs = require('fs');
 var sasfs = require('./sas-fs');
 
-sas.debug=0;
+sas.debug = 0;
 
 var Dateformat = function(date, fmt) {
 
@@ -28,16 +28,16 @@ var Dateformat = function(date, fmt) {
 
 
 var _sh = "cat /dev/null > "; //清理log shell
-var from = conf.from, //源文件夹
+var from = require('./conf').from;//源文件夹
   to = conf.to; //目标文件夹
 var oldtime = conf.to + '/log-master-time'; //目标文件夹+时间
 var Interval = conf.Interval; //间隔
 var timeFormat = conf.timeFormat; //文件夹时间名字格式。
 var Cresult = {}; //读取源文件列表变量。
 var C_time = 0; //时间文件夹名字
-var C_start=conf.startTime.split(':');//开始时间
-var C_start_Hour=Number(C_start[0]);//开始时间小时
-var C_start_min=Number(C_start[1]);//开始时间分钟
+var C_start = conf.startTime.split(':'); //开始时间
+var C_start_Hour = Number(C_start[0]); //开始时间小时
+var C_start_min = Number(C_start[1]); //开始时间分钟
 
 
 
@@ -49,7 +49,7 @@ var readDir = function(path) { //读取目录下log文件。第一步。
   return function(cb, t) {
     fs.readdir(path, function(err, flies) {
       if (err) {
-        
+
         return cb('$STOP', err);
       }
       //var sharr = [];
@@ -66,7 +66,7 @@ var readDir = function(path) { //读取目录下log文件。第一步。
 }
 
 
-var readOrWrite = function(cb) { //2
+/*var readOrWrite = function(cb) { //2
   sasfs.readOrWrite({
     oldtime: Date.now()
   }, function(err, result) {
@@ -75,46 +75,48 @@ var readOrWrite = function(cb) { //2
     }
     var result_time = Number(result[0].oldtime);
     var _start = new Date();
-    
-    _start.setHours(C_start_Hour,C_start_min,0);
-    
-    _start = _start.getTime()+ Interval;
-    var _Interval = _start-result_time;
+    var _now = _start.getTime();
+    _start.setHours(C_start_Hour, C_start_min, 0);
+    _start = _start.getTime();
+    console.log("_start="+_start+" _now="+_now);
+    if (_start < _now) {
 
-    if(_Interval<Interval){ //中途.
-      fs.writeFile(oldtime,)
-
-    }else{
-
+      _start = _start.getTime() + Interval;
     }
 
-    setTimeout(function(){
-        cb(result_time);
-      },_Interval);
 
     var time = Dateformat(_start, timeFormat);
-
-    console.log('\n_start=='+time);
-
-    
-
-
-
-     console.log(_Interval);
-    console.log('\nNumber(C_start[0])')
-
-
-    cb(result_time);
+    console.log('将在：\u001b[91m' + time + " \u001b[39m开始切割。");
+    setTimeout(function() {
+      cb(_start);
+    }, _start - _now);
   });
-}
+
+}*/
 
 var mkDirTime = function(cb, t) { //2跟据时间创建文件夹
-  var _oldtime = this[0];
+  var _start = new Date();
+  var _now = _start.getTime();
+  _start.setHours(C_start_Hour, C_start_min, 0);
 
-   console.log("_oldtime = "+_oldtime);
-  if (Date.now() > Interval + _oldtime) {
-  //if (1==1) {
-    var time = Dateformat(null, timeFormat);
+  console.log("_start=" + _start + " _now=" + _now);
+  if (_start < _now) {
+    _start = _start.getTime() + Interval;
+  } else {
+    _start = _start.getTime();
+  }
+
+
+
+//testg
+  _start= _now+10;
+
+    var time = Dateformat(_start, timeFormat);
+  C_time = time;
+
+
+  console.log('将在：\u001b[91m' + time + " \u001b[39m开始切割。");
+  setTimeout(function() {
     console.log('正在创建文件夹:' + time);
     fs.mkdir(conf.to + '/' + time, function(err) {
       if (err) {
@@ -122,12 +124,12 @@ var mkDirTime = function(cb, t) { //2跟据时间创建文件夹
         console.log(err);
         return cb('$STOP', err);
       }
-      C_time = time;
+
       cb();
     });
-  }else{
-    cb('$END');
-  }
+  //}, _start - _now);
+  }, 10);
+
 }
 
 
@@ -141,41 +143,52 @@ function Clear(cb, t) { //清空log;
 
 
 
-sas([from], {
-  iterator: readDir,
-  allEnd: function(err, result) {
-    if (err) {
-      return console.log('初始化失败：' + err);
-    }
-  
+function _loop() {
 
-    var _read = {};
 
-        var readFile = function(cb, t) {
-      fs.readFile(t.pIndex, 'utf-8', function(err, buffer) {
-        if (err) {
-          cb(err);
-        } else {
-          cb(buffer); //$THIS=  直接替换this.
-        }
-      });
-    }
 
-    function writeFile(cb, t) { //写入目标文件。
-      console.log("t.pIndex=" +t.pIndex);
-      console.log(to + "/" + C_time + '/' + Cresult[t.pIndex]);
-      fs.writeFile(to + "/" + C_time + '/' + Cresult[t.pIndex], this[0], 'utf-8', function(err) {
-        if (err) {
-          console.log(err);
-          return cb('$END');
-        }
+
+
+  sas([from], {
+    iterator: readDir,
+    allEnd: function(err, result) {
+      if (err) {
+        return console.log('初始化失败：' + err);
+      }
+      var _read = {};
+
+      var readFile = function(cb, t) {
+        fs.readFile(t.pIndex, 'utf-8', function(err, buffer) {
+          if (err) {
+            cb(err);
+          } else {
+            cb(buffer); //$THIS=  直接替换this.
+          }
+        });
+      }
+
+      function writeFile(cb, t) { //写入目标文件。
+        console.log("t.pIndex=" + t.pIndex);
+        console.log(to + "/" + C_time + '/' + Cresult[t.pIndex]);
+        fs.writeFile(to + "/" + C_time + '/' + Cresult[t.pIndex], this[0], 'utf-8', function(err) {
+          if (err) {
+            console.log(err);
+            return cb('$END');
+          }
+          cb();
+        });
+      }
+      for (var i in Cresult) {
+        _read[i] = [readFile, writeFile];
+      }
+
+      sas([mkDirTime, _read, function(cb) {
+
         cb();
-      });
+        console.log('end*******************');
+        _loop();
+      }]);
     }
-    for (var i in Cresult) {
-      _read[i] = [readFile, writeFile];
-    }
-
-    sas([readOrWrite, mkDirTime, _read]);
-  }
-});
+  });
+}
+_loop();
