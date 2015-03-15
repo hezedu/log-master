@@ -1,0 +1,15 @@
+1.  plan
+2.  result
+3.  prototype
+4. 第一个参数类型.
+
+$HOLD
+SpIndex
+push Sparent
+err传不过来
+loop
+Object.keys 优化.
+
+
+cb($STOP,err);
+cb($RELOAD,tasks);
