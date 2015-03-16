@@ -66,8 +66,7 @@ exports.split = function(conf) {
     var _start = new Date();
     var _now = _start.getTime();
     _start.setHours(C_start_Hour, C_start_min, 0);
-
-    if (_start < _now) {
+    if (_start <= (_now+1000)) {
       _start = _start.getTime() + Interval;
     } else {
       _start = _start.getTime();
@@ -82,7 +81,7 @@ exports.split = function(conf) {
     C_time = time;
     console.log('将在：\u001b[91m' + time + " \u001b[39m开始切割。");
     setTimeout(function() {
-      //console.log('正在创建文件夹:' + time);
+      console.log('正在创建文件夹:' + time);
       fs.mkdir(to + '/' + time, function(err) {
         if (err) {
           console.log("创建目标文件夹失败：" + to + '/' + time);
@@ -127,7 +126,7 @@ exports.split = function(conf) {
         }
 
         function writeFile(cb, t) { //写入目标文件。
-          //console.log("写入目标文件:"+to + "/" + C_time + '/' + Cresult[t.pIndex]);
+          console.log("写入目标文件:"+to + "/" + C_time + '/' + Cresult[t.pIndex]);
           fs.writeFile(to + "/" + C_time + '/' + Cresult[t.pIndex], this[0], 'utf-8', function(err) {
             if (err) {
               console.log(err);
