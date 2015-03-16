@@ -1,5 +1,6 @@
 # log-master
 ##split
+将本机上所有log用时间分割，汇集到一个文件夹里。
 ```javascript
 var logMaster = require('log-master');
 logMaster.split({ //切割，目前唯一的功能
