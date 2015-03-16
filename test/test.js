@@ -1,8 +1,10 @@
 var logMaster = require('../log-master');
 logMaster.split({
   "from": {
-    //"node_wechat": "D:/duwei/ycombo_wechat/other/log/2.12"
-    "node_wechat": "D:/duwei/ycombo_wechat/other/log/2.2"
+    "nodeWeb": "/usr/local/software/node/node_web/log",
+    "nodeApp": "/usr/local/software/node/node_app/log",
+    "nodeWap": "/usr/local/software/node/node_wap/log",
+    "nodeWechat": "/usr/local/software/node/nodeWechat/log"
   },
   "Suffix":[".log",'.test'],
   "to": __dirname,
