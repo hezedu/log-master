@@ -1,5 +1,5 @@
 var fs = require('fs');
-var sas = require('./sas-debug');
+var sas = require('sas');
 
 /*
  * Read or Create 常见的场景

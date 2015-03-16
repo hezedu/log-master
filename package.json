@@ -1,6 +1,6 @@
 {
   "name": "log-master",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": "log-master",
   "keywords": [
     "log",
@@ -16,7 +16,7 @@
     "name": "hezedu"
   },
   "dependencies": {
-    "sas": "^0.1.18"
+    "sas": "^0.1.19"
   },
   "licenses": "MIT",
   "email": "hezedu@hotmail.com",
