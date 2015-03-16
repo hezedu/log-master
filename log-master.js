@@ -31,7 +31,7 @@ exports.split = function(conf) {
   var timeFormat = conf.timeFormat || "yyyy年MM月dd日HH时mm分ss秒"; //文件夹时间名字格式。
   var C_start = conf.startTime || "00:00"; //开始时间
   C_start = C_start.split(':'); //开始时间
-  var Suffix = conf.Suffix || '.log';
+  var Suffix = conf.Suffix || ['.log'];
 
   var C_start_Hour = Number(C_start[0]); //开始时间小时
   var C_start_min = Number(C_start[1]); //开始时间分钟
