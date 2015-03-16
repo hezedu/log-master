@@ -1,6 +1,6 @@
 # log-master
 ##split
-```
+```javascript
 var logMaster = require('log-master');
 logMaster.split({//切割，目前唯一的功能
   "from": {//目标文件夹，可多选。
