@@ -6,10 +6,10 @@
 $HOLD
 SpIndex
 push Sparent
-err传不过来
 loop
 Object.keys 优化.
 
+delete
 
 cb($STOP,err);
 cb($RELOAD,tasks);
