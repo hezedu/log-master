@@ -1,4 +1,6 @@
 # log-master
+##安装
+`npm install log-master`
 ##split
 将本机上所有log用时间分割，汇集到一个文件夹里。
 ```javascript
