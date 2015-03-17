@@ -1,7 +1,9 @@
 # log-master
 ##安装
 `npm install log-master`
-##split
+##使用方法
+###split
+
 将本机上所有log用时间分割，汇集到一个文件夹里。
 ```javascript
 var logMaster = require('log-master');
