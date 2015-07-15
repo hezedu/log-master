@@ -81,11 +81,11 @@ exports.split = function(conf) {
     C_time = time;
     console.log('将在：\u001b[91m' + time + " \u001b[39m开始切割。");
     setTimeout(function() {
-      console.log('正在创建文件夹:' + time);
+      //-console.log('正在创建文件夹:' + time);
       fs.mkdir(to + '/' + time, function(err) {
         if (err) {
-          console.log("创建目标文件夹失败：" + to + '/' + time);
-          console.log(err);
+          console.error("创建目标文件夹失败：" + to + '/' + time);
+          console.error(err);
           return cb('$STOP', err);
         }
         cb();
@@ -111,7 +111,7 @@ exports.split = function(conf) {
       iterator: readDir,
       allEnd: function(err, result) {
         if (err) {
-          return console.log('初始化失败：' + err);
+          return console.error('初始化失败：' + err);
         }
         var _read = {};
 
@@ -126,10 +126,10 @@ exports.split = function(conf) {
         }
 
         function writeFile(cb, t) { //写入目标文件。
-          console.log("写入目标文件:"+to + "/" + C_time + '/' + Cresult[t.pIndex]);
+          //-console.log("写入目标文件:"+to + "/" + C_time + '/' + Cresult[t.pIndex]);
           fs.writeFile(to + "/" + C_time + '/' + Cresult[t.pIndex], this[0], 'utf-8', function(err) {
             if (err) {
-              console.log(err);
+              console.error(err);
               return cb('$END');
             }
             cb();
