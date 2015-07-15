@@ -98,7 +98,8 @@ exports.split = function(conf) {
   function Clear(cb, t) { //清空log;
     child_process.exec(_sh + t.pIndex, function(err) {
       if (err) {
-        //console.error(err);
+        console.error("清空log err:");
+        console.error(err);
       }
       cb();
     });
