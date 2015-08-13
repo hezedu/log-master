@@ -1,7 +1,7 @@
 var child_process = require('child_process');
 var sas = require('sas');
 var fs = require('fs');
-var sasfs = require('./sas-fs');
+//var sasfs = require('./sas-fs');
 
 var Dateformat = function(date, fmt) {
   date = date ? new Date(date) : new Date();
