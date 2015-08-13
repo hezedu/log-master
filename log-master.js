@@ -66,7 +66,7 @@ exports.split = function(conf) {
     var _start = new Date();
     var _now = _start.getTime();
     _start.setHours(C_start_Hour, C_start_min, 0);
-    if (_start <= (_now+1000)) {
+    if (_start <= (_now + 1000)) {
       _start = _start.getTime() + Interval;
     } else {
       _start = _start.getTime();
@@ -95,7 +95,7 @@ exports.split = function(conf) {
 
   }
 
-  function Clear(cb, t) { //清空log;
+  function clear(cb, t) { //清空log;
     child_process.exec(_sh + t.pIndex, function(err) {
       if (err) {
         console.error("清空log err:");
@@ -115,29 +115,50 @@ exports.split = function(conf) {
           return console.error('初始化失败：' + err);
         }
         var _read = {};
+        /*
+                var readFile = function(cb, t) {
+                  fs.readFile(t.pIndex, 'utf-8', function(err, buffer) {
+                    if (err) {
+                      cb(err);
+                    } else {
+                      cb(buffer); //$THIS=  直接替换this.
+                    }
+                  });
+                }
+                var new_rw = function(cb,t){
+                            fs.createReadStream(t.pIndex).pipe(fs.createWriteStream(to + "/" + C_time + '/' + Cresult[t.pIndex]))
+                  .end(function(){
+                    console.log('new createReadStream');
+                    cb();
+                  });
 
-        var readFile = function(cb, t) {
-          fs.readFile(t.pIndex, 'utf-8', function(err, buffer) {
-            if (err) {
-              cb(err);
-            } else {
-              cb(buffer); //$THIS=  直接替换this.
-            }
-          });
-        }
+                }
 
-        function writeFile(cb, t) { //写入目标文件。
-          //-console.log("写入目标文件:"+to + "/" + C_time + '/' + Cresult[t.pIndex]);
-          fs.writeFile(to + "/" + C_time + '/' + Cresult[t.pIndex], this[0], 'utf-8', function(err) {
+                function writeFile(cb, t) { //写入目标文件。cat
+                  //-console.log("写入目标文件:"+to + "/" + C_time + '/' + Cresult[t.pIndex]);
+                  fs.writeFile(to + "/" + C_time + '/' + Cresult[t.pIndex], this[0], 'utf-8', function(err) {
+                    if (err) {
+                      console.error(err);
+                      return cb('$END');
+                    }
+                    cb();
+                  });
+                }*/
+
+
+        function cat(cb, t) { //清空log;
+          child_process.exec('cat ' + t.pIndex + ' > ' + to + "/" + C_time + '/' + Cresult[t.pIndex], function(err) {
             if (err) {
+              console.error("清空log err:");
+              console.error('cat ' + t.pIndex + ' > ' + to + "/" + C_time + '/' + Cresult[t.pIndex]);
               console.error(err);
-              return cb('$END');
             }
             cb();
           });
         }
         for (var i in Cresult) {
-          _read[i] = [readFile, writeFile, Clear];
+          //_read[i] = [readFile,writeFile,Clear];
+          _read[i] = [cat, clear];
         }
         sas([mkDirTime, _read, function(cb) {
           cb();
