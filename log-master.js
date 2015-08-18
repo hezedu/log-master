@@ -115,6 +115,16 @@ exports.split = function(conf) {
           return console.error('初始化失败：' + err);
         }
         var _read = {};
+
+        var new_rw = function(cb, t) {
+          var fs_rs = fs.createReadStream(t.pIndex);
+          fs_rs.pipe(fs.createWriteStream(to + "/" + C_time + '/' + Cresult[t.pIndex]));
+          fs_rs.on('end', function() {
+            //console.log('new createReadStream');
+            cb();
+          });
+        }
+
         /*
                 var readFile = function(cb, t) {
                   fs.readFile(t.pIndex, 'utf-8', function(err, buffer) {
@@ -146,19 +156,19 @@ exports.split = function(conf) {
                 }*/
 
 
-        function cat(cb, t) { //清空log;
-          child_process.exec('cat ' + t.pIndex + ' > ' + to + "/" + C_time + '/' + Cresult[t.pIndex], function(err) {
-            if (err) {
-              console.error("清空log err:");
-              console.error('cat ' + t.pIndex + ' > ' + to + "/" + C_time + '/' + Cresult[t.pIndex]);
-              console.error(err);
-            }
-            cb();
-          });
-        }
+        /*        function cat(cb, t) { //清空log;
+                  child_process.exec('cat ' + t.pIndex + ' > ' + to + "/" + C_time + '/' + Cresult[t.pIndex], function(err) {
+                    if (err) {
+                      console.error("清空log err:");
+                      console.error('cat ' + t.pIndex + ' > ' + to + "/" + C_time + '/' + Cresult[t.pIndex]);
+                      console.error(err);
+                    }
+                    cb();
+                  });
+                }*/
         for (var i in Cresult) {
           //_read[i] = [readFile,writeFile,Clear];
-          _read[i] = [cat, clear];
+          _read[i] = [new_rw, clear];
         }
         sas([mkDirTime, _read, function(cb) {
           cb();
