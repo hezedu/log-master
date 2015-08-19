@@ -13,7 +13,7 @@ logMaster.split({
   },
   "Suffix":[".log",'.test'],
   "to": __dirname,
-  //"Interval": 1000 * 60,
+  "Interval": 1000 * 60 ,
   "timeFormat": "yyyy年MM月dd日HH时mm分ss秒",
-  "startTime":h+':'+m//开始
+  "startTime":'1:1:9'//开始
 });
