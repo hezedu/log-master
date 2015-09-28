@@ -17,6 +17,6 @@ logMaster.split({ //切割，目前唯一的功能
   "to": __dirname, //目标文件夹,log都会到这里。
   "Interval": 1000 * 60 * 60 * 24, //切割时间间隔，默认一天。
   "timeFormat": "yyyy年MM月dd日HH时mm分ss秒", //时间格式(生成的文件夹名),默认为yyyy年MM月dd日HH时mm分ss秒
-  "startTime": "00:00" //开始时间，默认零点,精确到秒的话就："00:00：00"
+  "startTime": "00:00" //开始时间，默认零点,精确到秒的话就："00:00:00"
 });
 ```
