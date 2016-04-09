@@ -24,5 +24,5 @@ logMaster.split({ //切割，目前唯一的功能
 `nohup node youapp.js &`
 
 或用其它守护进程比如：`pm2`, `forever`
-###注意
+##注意
 在window下测试：文件名有空格会出现日志无法清空的BUG，敬请避免使用带空格的文件名。
