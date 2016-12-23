@@ -10,8 +10,8 @@ var logMaster = require('log-master');
 logMaster.split({ //切割，目前唯一的功能
   "from": { //源文件夹，可多选。
     "forever": "/root/.forever",
-    "nodeApp": "/usr/local/softeware/node_app/log",
-    "nodeWechat": "/usr/local/softeware/node_wechat/log"
+    "app1": "/app1logdir",
+    "app2": "/app2logdir"
   },
   "Suffix": [".log"], //要切割的文件类型，可多选。默认 [".log"]
   "to": __dirname, //目标文件夹,log都会到这里。
