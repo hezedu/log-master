@@ -1,5 +1,5 @@
 # log-master
-简单的Log定时切割工具。只作非重要log的切割。不保证完整性。重要的log请勿使用。
+简单的Log定时切割工具。只作非重要log的切割。不保证log一字不差的完整性。重要的log请勿使用。
 ## 安装
 `npm install log-master`
 ## 使用方法
