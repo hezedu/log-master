@@ -1,6 +1,5 @@
 var child_process = require('child_process');
 var sas = require('sas');
-var path = require('path');
 var fs = require('fs');
 
 var Dateformat = function(date, fmt) { //来自互联网
@@ -23,20 +22,18 @@ var Dateformat = function(date, fmt) { //来自互联网
 
 exports.split = function(conf) {
   //conf
-  var from = path.resolve(conf.from); //源文件夹
-  var to = conf.to ? path.resolve(conf.to) : __dirname; //目标文件夹
+  var from = conf.from; //源文件夹
+  var to = conf.to || __dirname; //目标文件夹
 
-  var interval = conf.interval || 
-  conf.Interval || //兼容之前大写...
+  var interval = conf.Interval || 
   1000 * 60 * 60 * 24; //间隔  默认一天
-  
+
   var timeFormat = conf.timeFormat || "yyyy年MM月dd日HH时mm分ss秒"; //文件夹时间名字格式。
 
   var c_start = conf.startTime || "00:00"; //开始时间
   c_start = c_start.split(':'); //开始时间
 
-  var suffix = conf.suffix || 
-  conf.Suffix || //兼容之前大写...
+  var suffix = conf.Suffix || 
   ['.log']; //后缀  默认['.log']
 
   var c_start_Hour = Number(c_start[0]); //开始时间小时

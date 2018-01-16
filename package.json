@@ -2,13 +2,18 @@
   "name": "log-master",
   "version": "0.0.11",
   "main": "log-master",
+  "scripts": {
+    "vminstall": "npm install  --no-bin-links"
+  },
   "keywords": [
     "log",
     "nodejs",
     "split",
     "merger"
   ],
-  "files": ["log-master.js"],
+  "files": [
+    "log-master.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/hezedu/log-master.git"

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nohup node ./loop.js > loop.log & && node log-split.js"
+    "loop_start": "nohup node ./loop.js > /home/dw/logmaster/loop.log 2>&1 &",
+    "start": "npm run loop_start && node log-split.js"
   },
   "dependencies": {
   }
