@@ -8,6 +8,7 @@
     "split",
     "merger"
   ],
+  "files": ["log-master.js"],
   "repository": {
     "type": "git",
     "url": "https://github.com/hezedu/log-master.git"
