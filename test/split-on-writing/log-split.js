@@ -12,3 +12,6 @@ logMaster.split({ //切割，目前唯一的功能
 
 //0 4110
 //
+// setTimeout(function(){
+//   process.exit();
+// },1000 * 30);
