@@ -31,15 +31,16 @@ logMaster.split({ //切割，目前唯一的功能
 ## 注意
 手动输出Log时需要使用 **>>** 而不是 **>** 符号。例：
 
+### 使用 **>** 将会得到：
+
 `nohup node ./loop.js >/somedir/you.log &`
 
-使用 **>** 将会得到：
+![image](https://github.com/hezedu/SomethingBoring/blob/master/log-master/log-master-error.png?raw=true)<br>
+在vim下看，切割后的文件会包含之前被清空的占位符，并且体积逐渐增大。
 
-![image](https://github.com/hezedu/SomethingBoring/blob/master/log-master/log-master-error.png?raw=true)
 
+###  使用 **>>** 才会得到你想要的结果。
 
 `nohup node ./loop.js >>/somedir/you.log &`
-
-使用 **>>** 才会得到你想要的结果。
 
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/log-master/log-master-ok.png?raw=true)
