@@ -1,4 +1,4 @@
-# log-master 0.1.12
+# log-master 1.0.0
 简单的Log定时切割工具。可切割正在被写入的log文件，并保持完整性。
 
 不支持window平台。
