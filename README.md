@@ -29,13 +29,17 @@ logMaster.split({ //切割，目前唯一的功能
 
 或用其它守护进程比如：`pm2`, `forever`
 ## 注意
-手动输出Log时需要使用 **>>** 而不是 **>** 符号。如：
+手动输出Log时需要使用 **>>** 而不是 **>** 符号。例：
 
-使用 **>** 将会得到：<br>
 `nohup node ./loop.js >/somedir/you.log &`
+
+使用 **>** 将会得到：
+
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/log-master/log-master-error.png?raw=true)
 
-使用 **>>** 才会得到你想要的结果。<br>
+
 `nohup node ./loop.js >>/somedir/you.log &`
+
+使用 **>>** 才会得到你想要的结果。
 
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/log-master/log-master-ok.png?raw=true)
