@@ -8,8 +8,7 @@
   "keywords": [
     "log",
     "nodejs",
-    "split",
-    "merger"
+    "split"
   ],
   "files": [
     "log-master.js"
