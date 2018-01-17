@@ -1,5 +1,8 @@
-# log-master
-简单的Log定时切割工具。只作非重要log的切割。**不保证log一字不差的完整性**。
+# log-master 0.1.12
+简单的Log定时切割工具。可切割正在被写入的log文件，并保持完整性。
+
+不支持window平台。
+
 ## 安装
 `npm install log-master`
 ## 使用方法
@@ -26,6 +29,12 @@ logMaster.split({ //切割，目前唯一的功能
 
 或用其它守护进程比如：`pm2`, `forever`
 ## 注意
-在window(win8.1)下测试：文件名有空格会出现日志无法清空的BUG，敬请避免使用带空格的文件名。<br>
-在win10 上无法清空。<br>
-所以最好不要用在**window**上。
+手动输出Log时需要使用 **>>** 而不是 **>** 符号。如：
+
+使用 **>**将会得到：<br>
+`nohup node ./loop.js >/somedir/you.log &`<br>
+![image](https://github.com/hezedu/SomethingBoring/blob/master/log-master/log-master-error.png?raw=true)
+
+使用 **>>** 才会得到你想要的结果。<br>
+`nohup node ./loop.js >>/somedir/you.log &`<br>
+![image](https://github.com/hezedu/SomethingBoring/blob/master/log-master/log-master-ok.png?raw=true)

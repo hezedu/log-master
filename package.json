@@ -1,6 +1,6 @@
 {
   "name": "log-master",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "main": "log-master",
   "scripts": {
     "vminstall": "cnpm i --by=npm --no-bin-links"
