@@ -1,9 +1,9 @@
 {
   "name": "log-master",
-  "version": "0.0.11",
+  "version": "0.1.11",
   "main": "log-master",
   "scripts": {
-    "vminstall": "npm install  --no-bin-links"
+    "vminstall": "cnpm i --by=npm --no-bin-links"
   },
   "keywords": [
     "log",
@@ -24,7 +24,7 @@
   "dependencies": {
     "sas": "0.1.19"
   },
-  "licenses": "MIT",
+  "license": "MIT",
   "email": "hezedu@hotmail.com",
   "description": "split  the log",
   "bugs": {
