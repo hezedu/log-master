@@ -31,10 +31,11 @@ logMaster.split({ //切割，目前唯一的功能
 ## 注意
 手动输出Log时需要使用 **>>** 而不是 **>** 符号。如：
 
-使用 **>**将会得到：<br>
-`nohup node ./loop.js >/somedir/you.log &`<br>
+使用 **>** 将会得到：<br>
+`nohup node ./loop.js >/somedir/you.log &`
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/log-master/log-master-error.png?raw=true)
 
 使用 **>>** 才会得到你想要的结果。<br>
-`nohup node ./loop.js >>/somedir/you.log &`<br>
+`nohup node ./loop.js >>/somedir/you.log &`
+
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/log-master/log-master-ok.png?raw=true)
