@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "vminstall": "cnpm i --by=npm --no-bin-links",
-    "loop_start_by_nohup": "nohup node ./loop.js >/home/dw/logmaster/loop.log 2>>/home/dw/logmaster/loop-err.log &",
+    "loop_start_by_nohup": "nohup node ./loop.js >>/home/dw/logmaster/loop.log 2>>/home/dw/logmaster/loop-err.log &",
     "loop_start_by_forever": "forever start  -l /home/dw/logmaster/loop.log -e /home/dw/logmaster/loop-err.log -a loop.js",
-    "loop_start": "node bin/www > /home/dw/logmaster/loop.log",
+    "loop_start": "node bin/www >> /home/dw/logmaster/loop.log",
     "start": "npm run loop_start && node log-split.js",
     "pro": "NODE_ENV=production forever start -l /home/dw/logmaster/all.log -e /home/dw/logmaster/err.log -a bin/www"
   },
