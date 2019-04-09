@@ -11,6 +11,6 @@
     "pro": "NODE_ENV=production forever start -l /home/dw/logmaster/all.log -e /home/dw/logmaster/err.log -a bin/www"
   },
   "dependencies": {
-    "express": "~4.15.2"
+    "express": "~4.16.4"
   }
 }
