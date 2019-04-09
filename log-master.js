@@ -38,7 +38,7 @@ exports.split = function(conf) {
 
   var c_start_Hour = Number(c_start[0]); //开始时间小时
   var c_start_min = Number(c_start[1]); //开始时间分钟
-  var c_start_sec = c_start[2] ? Number(c_start[2]) : 0; //开始时间分钟
+  var c_start_sec = c_start[2] ? Number(c_start[2]) : 0; //开始时间秒钟
   c_start = new Date();
   c_start.setHours(c_start_Hour, c_start_min, c_start_sec);
   c_start = c_start.getTime();
