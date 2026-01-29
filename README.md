@@ -35,7 +35,7 @@ logMaster.split({ //切割，目前唯一的功能
 
 `nohup node ./loop.js >/somedir/you.log &`
 
-![image](https://github.com/hezedu/SomethingBoring/blob/master/log-master/log-master-error.png?raw=true)<br>
+![image](https://raw.githubusercontent.com/hezedu/SomethingBoring/refs/heads/main/log-master/log-master-error.png)<br>
 在vim下看，切割后的文件会包含之前被清空的占位符，并且体积逐渐增大。
 
 
@@ -43,4 +43,4 @@ logMaster.split({ //切割，目前唯一的功能
 
 `nohup node ./loop.js >>/somedir/you.log &`
 
-![image](https://github.com/hezedu/SomethingBoring/blob/master/log-master/log-master-ok.png?raw=true)
+![image](https://raw.githubusercontent.com/hezedu/SomethingBoring/refs/heads/main/log-master/log-master-ok.png)
